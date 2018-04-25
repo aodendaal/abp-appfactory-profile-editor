@@ -1,0 +1,126 @@
+<div class="row clearfix" [@routerTransition]>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <form *ngIf="active" #editProfileForm="ngForm" id="frm_edit_profile" novalidate (ngSubmit)="save()">
+            <div #mainContent class="card main-content">
+                <div class="header">
+                    <h2>
+                        {{l('Profile')}}
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:void(0);" class=" waves-effect waves-block()" (click)="refresh();">
+                                        <i class="material-icons">refresh</i> {{l('Refresh')}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body" #Body (OnShown)="onShown()">
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="username" type="text" name="UserName" [(value)]="profile.userName" required maxlength="32" minlength="2" class="validate form-control">
+                                    <label for="username" class="form-label">{{l("UserName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-6">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="name" type="text" name="Name" [(value)]="profile.name" required maxlength="32" class="validate form-control">
+                                    <label for="name" class="form-label">{{l("Name")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="surname" type="text" name="Surname" [(value)]="profile.surname" required maxlength="32" class="validate form-control">
+                                    <label for="surname" class="form-label">{{l("Surname")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="submit" class="btn btn-primary waves-effect">
+                        {{l("Save")}}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card main-content">
+            <div class="header">
+                <h2>
+                    {{l('ChangeEmailAddress')}}
+                </h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button (click)="editUserEmail()" type="submit" class="btn btn-primary waves-effect">
+                            {{l("ChangeEmailAddress")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card main-content">
+            <div class="header">
+                <h2>
+                    {{l('ChangePassword')}}
+                </h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button (click)="editUserPassword()" type="submit" class="btn btn-primary waves-effect">
+                            {{l("ChangePassword")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card main-content">
+            <div class="header">
+                <h2>
+                    {{l('Delete Account')}}
+                </h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="text-danger">
+                            <strong>Danger!</strong> This action cannot be undone.
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button (click)="deleteAccount()" type="submit" class="btn btn-danger waves-effect">
+                            {{l("ConfirmDeleteAccount")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<edit-email-modal #editEmailModal></edit-email-modal>
+<edit-password-modal #editPasswordModal></edit-password-modal>
