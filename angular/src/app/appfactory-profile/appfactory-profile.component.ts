@@ -2,8 +2,7 @@ import { Component, Injector, ElementRef, ViewChild, OnInit } from '@angular/cor
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 
-import { UserDto, ProfileServiceProxy, User, ProfileDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
-import { AbpSessionService } from 'abp-ng2-module/src/session/abp-session.service';
+import { ProfileServiceProxy, ProfileDto } from '@shared/service-proxies/service-proxies';
 import { AppAuthService } from '@shared/auth/app-auth.service';
 import { EditEmailComponent } from '@app/appfactory-profile/edit-email/edit-email.component';
 import { EditPasswordComponent } from '@app/appfactory-profile/edit-password/edit-password.component';
@@ -80,5 +79,4 @@ export class AppFactoryProfileComponent extends AppComponentBase implements OnIn
     editUserPassword(): void {
         this.editPasswordModal.show(this.profile);
     }
-
 }

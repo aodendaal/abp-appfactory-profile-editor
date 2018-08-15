@@ -1,13 +1,13 @@
-import { Component, ViewChild, Injector, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, ViewChild, Injector, ElementRef, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { UserServiceProxy, UserDto, RoleDto, ProfileServiceProxy, ProfileDto, User } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, ProfileDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 
 @Component({
     selector: 'edit-password-modal',
     templateUrl: './edit-password.component.html'
 })
-export class EditPasswordComponent extends AppComponentBase {
+export class EditPasswordComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('editPasswordModal') modal: ModalDirective;
     @ViewChild('modalContent') modalContent: ElementRef;
