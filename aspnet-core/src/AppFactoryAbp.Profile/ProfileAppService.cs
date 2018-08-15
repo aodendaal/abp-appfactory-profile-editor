@@ -22,13 +22,14 @@ namespace AppFactoryAbp.Profile
             this.passwordHasher = passwordHasher;
         }
 
-        public async Task<User> GetCurrentUser()
+        public async Task<string> GetCurrentUserPassword()
         {
             var id = AbpSession.GetUserId();
             var user = await userRepository.GetAll()
-                                           .FirstOrDefaultAsync(record => record.Id == id);
+                                           .Where(record => record.Id == id)
+                                           .FirstOrDefaultAsync();
 
-            return user;
+            return user.Password;
         }
 
         public async Task<ProfileDto> UpdateCurrentUser(ProfileDto input)
@@ -40,26 +41,29 @@ namespace AppFactoryAbp.Profile
             return await Get(input);
         }
 
-        public string HashPassword(User user, string newPassword)
+        public string HashPassword(int userId, string newPassword)
         {
+            var user = userRepository.Get(userId);
             var hash = passwordHasher.HashPassword(user, newPassword);
             return hash;
         }
 
-    public bool CheckPassword(User user, string hashedPassword, string providedPassword)
-    {
-        var result = userManager
-            .PasswordHasher
-            .VerifyHashedPassword(user, hashedPassword, providedPassword);
+        public bool CheckPassword(int userId, string hashedPassword, string providedPassword)
+        {
+            var user = userRepository.Get(userId);
 
-        if (result == PasswordVerificationResult.Success)
-        {
-            return true;
+            var result = userManager
+                .PasswordHasher
+                .VerifyHashedPassword(user, hashedPassword, providedPassword);
+
+            if (result == PasswordVerificationResult.Success)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
-        {
-            return false;
-        }
-    }
 }
 }

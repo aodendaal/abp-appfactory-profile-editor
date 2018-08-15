@@ -23,7 +23,7 @@ export class EditPasswordComponent extends AppComponentBase {
     newPassword: string = null;
     reEnterPassword: string = null;
 
-    user: User = new User();
+    password: string = "";
     profile: ProfileDto = new ProfileDto();
 
     constructor(
@@ -33,9 +33,15 @@ export class EditPasswordComponent extends AppComponentBase {
         super(injector);
     }
 
-    show(profile: ProfileDto, user: User): void {
+    ngOnInit(): void {
+        this.profilesService.getCurrentUserPassword()
+            .subscribe((password) => {
+                this.password = password;
+            });
+    }
+
+    show(profile: ProfileDto): void {
         this.profile = profile;
-        this.user = user;
         this.active = true;
         this.modal.show();
     }
@@ -45,12 +51,14 @@ export class EditPasswordComponent extends AppComponentBase {
     }
 
     check(): void {
-        this.profilesService.checkPassword(this.user, this.user.password, this.currentPassword)
+        this.profilesService.checkPassword(this.profile.id, this.password, this.currentPassword)
             .subscribe((result) => {
                 if (result) {
                     if (this.newPassword == this.reEnterPassword) {
-                        this.profilesService.hashPassword(this.user, this.newPassword)
-                            .finally(() => { this.save(); })
+                        this.profilesService.hashPassword(this.profile.id, this.newPassword)
+                            .finally(() => { 
+                                this.save(); 
+                            })
                             .subscribe((result) => {
                                 this.hash = result;
                             });

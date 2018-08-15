@@ -19,7 +19,6 @@ export class AppFactoryProfileComponent extends AppComponentBase implements OnIn
     @ViewChild('editEmailModal') editEmailModal: EditEmailComponent;
     @ViewChild('editPasswordModal') editPasswordModal: EditPasswordComponent;
     
-    user: User = new User();
 
     profile: ProfileDto = new ProfileDto();
 
@@ -35,15 +34,9 @@ export class AppFactoryProfileComponent extends AppComponentBase implements OnIn
     }
 
     ngOnInit(): void {
-        this.profilesService.getCurrentUser()
+        this.profilesService.get(abp.session.userId)
             .subscribe((next) => {
-                this.user = next;
-                this.profile.id = next.id;
-                this.profile.userName = next.userName;
-                this.profile.name = next.name;
-                this.profile.surname = next.surname;
-                this.profile.emailAddress = next.emailAddress;
-                this.profile.password = next.password;
+                this.profile = next;
                 this.onShown();
             });
     }
@@ -57,6 +50,7 @@ export class AppFactoryProfileComponent extends AppComponentBase implements OnIn
             .finally(() => { this.saving = false; })
             .subscribe(() => {
                 this.notify.info(this.l('SavedSuccessfully'));
+                window.location.reload();
             });
     }
 
@@ -84,6 +78,7 @@ export class AppFactoryProfileComponent extends AppComponentBase implements OnIn
     }
 
     editUserPassword(): void {
-        this.editPasswordModal.show(this.profile, this.user);
+        this.editPasswordModal.show(this.profile);
     }
+
 }
